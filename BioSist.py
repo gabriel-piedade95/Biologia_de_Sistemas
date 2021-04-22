@@ -1,6 +1,4 @@
 import re
-import math
-
 
 ## arquivos ##
 
@@ -71,13 +69,13 @@ def gera_transicoes(mtz):
   return transicoes
 
 
-def lista_adjacencia(trns):
+def lista_adjacencia(trns, tam = 11):
 
   transicoes = [0] * 2048
 
   for i in range(0, len(trns)):
 
-    aux = [0] * 11
+    aux = [0] * tam
 
     for j in range(0, len(trns[0][1])):
 
@@ -96,6 +94,16 @@ def lista_adjacencia(trns):
     transicoes[int(pos, 2)] = int(num, 2)
   
   return transicoes
+
+def lista_para_binario(lista, tam = 11):
+
+  trns_bin = []
+  for i in range(0, len(lista)):
+    ant = '0' * (tam - len(bin(i)[2:])) + bin(i)[2:]
+    prox = '0' * (tam - len(bin(lista[i])[2:])) + bin(lista[i])[2:]
+    trns_bin.append((ant, prox))
+
+  return trns_bin
 
 def altera_transicoes_matriz_neutra(mtz, linha, gene, trns):
 
@@ -124,40 +132,15 @@ def altera_transicoes_matriz_neutra(mtz, linha, gene, trns):
   return n_trns
 
 
-## bacias ##
 
-def calcula_entropia(bacias):
-
-  H = 0
-  total = sum(bacias)
-  for bacia in bacias:
-    p = bacia/total
-    H = H - (p)*math.log(p, 2)
-
-  return H
-
-
-## Resultados de possiveis relacoes entre os genes ##
-
-def conta_ligacoes(linhas_genes):
-
-  sem_conexao = [0 for i in range(0, 11)]
-  inibe = [0 for i in range(0, 11)]
-  ativa = [0 for i in range(0, 11)]
-
-  for linha in linhas_genes:
-    for i in range(0, len(linha)):
-
-      if linha[i] == 1:
-        ativa[i] += 1
-      
-      if linha[i] == -1:
-        inibe[i] += 1
-        
-      if linha[i] == 0:
-        sem_conexao[i] += 1
-      
-
-  return [sem_conexao, inibe, ativa]
-
-
+def seleciona_linhas(mtz):
+  res ={}
+  for k in range(0, len(mtz)):
+    gene = abre_arquivo(f'gene{k}.txt')
+    linha = mtz[k]
+    res[k] = []
+    for i in range(0, len(gene)):
+      hamming = linha - gene[i]
+      if list(hamming).count(0) == 10:
+        res[k].append(gene[i])
+  return res
