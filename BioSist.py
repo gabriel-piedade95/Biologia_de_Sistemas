@@ -1,5 +1,7 @@
 import re
 
+
+
 ## arquivos ##
 
 def abre_arquivo(nome):
@@ -105,7 +107,7 @@ def lista_para_binario(lista, tam = 11):
 
   return trns_bin
 
-def altera_transicoes_matriz_neutra(mtz, linha, gene, trns):
+def altera_transicoes(mtz, linha, gene, trns):
 
   n_trns = []
 
@@ -134,13 +136,31 @@ def altera_transicoes_matriz_neutra(mtz, linha, gene, trns):
 
 
 def seleciona_linhas(mtz):
+  
   res ={}
+  
   for k in range(0, len(mtz)):
+  
     gene = abre_arquivo(f'gene{k}.txt')
     linha = mtz[k]
     res[k] = []
+  
     for i in range(0, len(gene)):
+  
       hamming = linha - gene[i]
       if list(hamming).count(0) == 10:
         res[k].append(gene[i])
+  
   return res
+
+def entropia(bacias):
+
+  total = 2048
+  H = 0
+  
+  for i in range(0, len(bacias)):
+  
+    p = (len(bacias[i])/total)
+    H -= p * math.log2(p)
+  
+  return H

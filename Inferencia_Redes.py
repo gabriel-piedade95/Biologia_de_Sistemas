@@ -31,7 +31,7 @@ def inequacoes(estados):
 
 def resolve_CSP(estados):
   
-  linhas_possiveis = list(iter.product((-1, 0, 1), repeat=11))
+  linhas_possiveis = list(iter.product([-1, 0, 1], repeat=11))
   ineqs = inequacoes(estados)
   resultados = {}
   for i in range(0, len(ineqs)):
@@ -40,7 +40,7 @@ def resolve_CSP(estados):
     for linha in linhas_possiveis:
       aux = [False] * len(restricoes)
       for r in range(0, len(restricoes)):
-        prod = np.array(linha) * np.array(estados[r])  
+        prod = np.array(linha.copy()) * np.array(estados[r])  
         if restricoes[r](sum(prod), 0):
           aux[r] = True
         else:

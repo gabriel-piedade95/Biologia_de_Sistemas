@@ -14,6 +14,17 @@ class Noh:
 			for i in self.ant:
 				i.imprime_arvore(nivel + 1)
 
+	def descendentes(self):
+		
+		if self.ant == []:
+			return [self]
+
+		aux = [self]
+		for i in range(0, len(self.ant)):
+			aux += self.ant[i].descendentes()
+			
+		return aux
+
 
 class Grafo:
 
@@ -62,3 +73,13 @@ class Grafo:
 
 		for arvore in self.raizes:
 			arvore.imprime_arvore()
+
+
+
+	def bacias(self):
+
+		b = {}
+		for i in range(0, len(self.raizes)):
+			b[i] = self.raizes[i].descendentes()
+
+		return b
