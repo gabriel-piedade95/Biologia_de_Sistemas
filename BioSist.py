@@ -153,12 +153,12 @@ def seleciona_linhas(mtz):
   
   return res
 
-def entropia(bacias):
+def entropia(bacia):
 
   total = 2048
   H = 0
   
-  for i in range(0, len(bacias)):
+  for i in range(0, len(bacia)):
   
     p = (len(bacias[i])/total)
     H -= p * math.log2(p)
