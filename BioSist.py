@@ -1,5 +1,5 @@
 import re
-
+import math
 
 
 ## arquivos ##
@@ -164,3 +164,25 @@ def entropia(bacias):
     H -= p * math.log2(p)
   
   return H
+
+def bacias_arvores(lista, raiz):
+	
+	if raiz not in lista:
+		return [raiz]
+
+	aux = [raiz]
+	for i in range(0, len(lista)):
+		if lista[i] == raiz and i not in aux:
+			aux += bacias_arvores(lista, i)
+
+	return aux
+
+
+def bacias(lista):
+	
+	bacia = {}
+	for i in range(0, len(lista)):
+		if lista[i] == i:
+			bacia[i] = bacias_arvores(lista, i)
+
+	return bacia
