@@ -1,6 +1,6 @@
 import re
 import math
-
+import numpy as np
 
 ## arquivos ##
 
@@ -147,18 +147,18 @@ def seleciona_linhas(mtz):
   
     for i in range(0, len(gene)):
   
-      hamming = linha - gene[i]
+      hamming = np.array(linha) - np.array(gene[i])
       if list(hamming).count(0) == 10:
         res[k].append(gene[i])
   
   return res
 
-def entropia(bacia):
+def entropia(bacias):
 
   total = 2048
   H = 0
   
-  for i in range(0, len(bacia)):
+  for i in range(0, len(bacias)):
   
     p = (len(bacias[i])/total)
     H -= p * math.log2(p)
@@ -179,10 +179,13 @@ def bacias_arvores(lista, raiz):
 
 
 def bacias(lista):
-	
-	bacia = {}
-	for i in range(0, len(lista)):
-		if lista[i] == i:
-			bacia[i] = bacias_arvores(lista, i)
 
-	return bacia
+  bacia = {}
+  a = 0
+  for i in range(0, len(lista)):
+    if lista[i] == i:
+      bacia[a] = bacias_arvores(lista, i)
+      a += 1
+
+  return bacia
+
