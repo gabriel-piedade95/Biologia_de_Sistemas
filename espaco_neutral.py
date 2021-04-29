@@ -1,5 +1,6 @@
 from dados import matriz_wildtype as mtz 
 import BioSist as bios 
+import matplotlib.pyplot as plt
 
 linhas = bios.seleciona_linhas(mtz)
 trns = bios.gera_transicoes(mtz)
@@ -15,4 +16,7 @@ for i in range(0, 11):
 		n_bacias = bios.bacias(n_lista)
 		H.append(bios.entropia(n_bacias))
 
-print(H)
+plt.plot(H)
+plt.show()
+
+
