@@ -1,12 +1,68 @@
 from dados import matriz_wildtype as mtz 
+from dados import estados
 import BioSist as bios 
 import matplotlib.pyplot as plt
+import Inferencia_Redes as iR 
+import numpy as np
+import networkx as nx
 
-linhas = bios.seleciona_linhas(mtz)
+
+#gera as bacias WT e cria uma lista das entropias
+
+def linhas_uma_diferenca(mtz):
+
+	linhas_possiveis = {}
+	d = [-1, 0, 1]
+
+	for linha in range(0, 11):
+
+		linha_aux = mtz[linha].copy()
+		aux = []
+		for coluna in range(0, 11):
+
+			for i in d:
+				if i != linha_aux[coluna]:
+
+					nova_linha = linha_aux.copy()
+					nova_linha[coluna] = i
+					aux.append(nova_linha)
+
+		linhas_possiveis[linha] = aux
+
+	return linhas_possiveis
+
+def seleciona_linhas_uma_diferenca(estados, linhas):
+
+	ineqs = iR.inequacoes(estados)
+	resultados = {}
+
+	for i in range(0, len(ineqs)):
+	    restricoes = ineqs[i]
+	    resultados[i] = []
+	    for linha in linhas[i]:
+	      aux = [False] * len(restricoes)
+	      for r in range(0, len(restricoes)):
+	        prod = np.array(linha.copy()) * np.array(estados[r])  
+	        if restricoes[r](sum(prod), 0):
+	          aux[r] = True
+	        else:
+	          break
+	      if all(aux):
+	        resultados[i].append(linha)
+  
+	return resultados
+
+
+l = linhas_uma_diferenca(mtz)
+linhas = seleciona_linhas_uma_diferenca(estados, l)
+
 trns = bios.gera_transicoes(mtz)
 lista = bios.lista_adjacencia(trns)
 bacias_WT = bios.bacias(lista)
 H = [bios.entropia(bacias_WT)]
+
+
+#calcula as entropias das linhas possiveis com uma diferenca
 
 for i in range(0, 11):
 
@@ -16,7 +72,27 @@ for i in range(0, 11):
 		n_bacias = bios.bacias(n_lista)
 		H.append(bios.entropia(n_bacias))
 
-plt.plot(H)
+
+#imprime a distribuicao da entropia
+'''
+plt.hist(H, density = True, bins = 53)
+
+
 plt.show()
+'''
+
+#grafos espaco neutral
+
+def imprime_grafo(entropia_bacias, entropia_WT, diferenca = 0.05):
 
 
+	G = nx.DiGraph()
+	G.add_edges_from([(x, entropia_WT) for x in entropia_bacias if abs(entropia_WT - x) <= diferenca])
+	pos = nx.spring_layout(G)
+	plt.figure(3, figsize = (14, 10))
+	nx.draw_networkx_nodes(G, pos, node_size = 100)
+	nx.draw_networkx_edges(G, pos, arrows = True)
+	plt.show()
+	
+
+imprime_grafo(H, bios.entropia(bacias_WT), 1)

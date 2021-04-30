@@ -29,9 +29,13 @@ def inequacoes(estados):
 
   return ineqs
 
-def resolve_CSP(estados):
+def resolve_CSP(estados, linhas = None):
   
-  linhas_possiveis = list(iter.product([-1, 0, 1], repeat=11))
+  if linhas == None:
+    linhas_possiveis = list(iter.product([-1, 0, 1], repeat=11))
+  else:
+    linhas_possiveis = linhas
+    
   ineqs = inequacoes(estados)
   resultados = {}
   for i in range(0, len(ineqs)):
