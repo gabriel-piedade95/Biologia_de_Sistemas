@@ -161,7 +161,7 @@ def entropia(bacias):
   for i in range(0, len(bacias)):
   
     p = (len(bacias[i])/total)
-    H -= p * math.log2(p)
+    H -= p * math.log(p, len(bacias))
   
   return H
 
@@ -188,4 +188,3 @@ def bacias(lista):
       a += 1
 
   return bacia
-
