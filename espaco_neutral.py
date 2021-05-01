@@ -53,6 +53,26 @@ def seleciona_linhas_uma_diferenca(estados, linhas):
 	return resultados
 
 
+
+
+def diferencas_entropia(H_wt, H_is, limiar):
+	
+	return [(x, entropia_WT) for x in entropia_bacias if abs(entropia_WT - x) <= limiar]
+
+
+def imprime_grafo(diferencas_entropia):
+
+
+	G = nx.DiGraph()
+	G.add_edges_from(diferencas_entropia)
+	pos = nx.spring_layout(G)
+	plt.figure(3, figsize = (14, 10))
+	nx.draw_networkx_nodes(G, pos, node_size = 100)
+	nx.draw_networkx_edges(G, pos, arrows = True)
+	plt.show()
+
+
+
 l = linhas_uma_diferenca(mtz)
 linhas = seleciona_linhas_uma_diferenca(estados, l)
 
@@ -63,36 +83,26 @@ H = [bios.entropia(bacias_WT)]
 
 
 #calcula as entropias das linhas possiveis com uma diferenca
+def entropia_bacias(linhas_possiveis)
+	for i in range(0, 11):
 
-for i in range(0, 11):
-
-	for linha_possivel in linhas[i]:
-		n_trns = bios.altera_transicoes(mtz, linha_possivel, i, trns)
-		n_lista = bios.lista_adjacencia(n_trns)
-		n_bacias = bios.bacias(n_lista)
-		H.append(bios.entropia(n_bacias))
+		for linha_possivel in linhas_possiveis[i]:
+			n_trns = bios.altera_transicoes(mtz, linha_possivel, i, trns)
+			n_lista = bios.lista_adjacencia(n_trns)
+			n_bacias = bios.bacias(n_lista)
+			H.append(bios.entropia(n_bacias))
 
 
-#imprime a distribuicao da entropia
+
+
+
 '''
 plt.hist(H, density = True, bins = 53)
 
 
 plt.show()
-'''
 
-#grafos espaco neutral
-
-def imprime_grafo(entropia_bacias, entropia_WT, diferenca = 0.05):
-
-
-	G = nx.DiGraph()
-	G.add_edges_from([(x, entropia_WT) for x in entropia_bacias if abs(entropia_WT - x) <= diferenca])
-	pos = nx.spring_layout(G)
-	plt.figure(3, figsize = (14, 10))
-	nx.draw_networkx_nodes(G, pos, node_size = 100)
-	nx.draw_networkx_edges(G, pos, arrows = True)
-	plt.show()
 	
 
 imprime_grafo(H, bios.entropia(bacias_WT), 1)
+'''
