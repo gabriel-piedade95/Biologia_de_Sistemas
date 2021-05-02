@@ -81,7 +81,7 @@ def cal_w(lista):
 
 def cal_W_total(lista):
 
-	return sum(cal_w(lista))
+	return sum(cal_w(lista))/len(lista)
 
 
 '''
