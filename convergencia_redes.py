@@ -59,37 +59,57 @@ def cal_L(lista):
 
 	return L 
 
-def _cal_T_somatorio(lista, est_ant):
+
+def _caminho_atrator(lista, est_ant):
 
 	prox_est = lista[est_ant]
 	if est_ant == prox_est:
+		return 
 
-		return 0
+	if lista[prox_est] == prox_est:
+		return [est_ant]
 
-	return _cal_T_estados(lista, est_ant) + _cal_T_somatorio(lista, prox_est) 
+	return [est_ant] + _caminho_atrator(lista, prox_est)
 
 
 def cal_w(lista):
 
 	w = [0] * len(lista)
 	L = cal_L(lista)
+	T = cal_T(lista)
+
 	for i in range(0, len(lista)):
-		if L[i] != 0:
-			w[i] = _cal_T_somatorio(lista, i)/L[i]
+
+		somatorio_w = 0
+		caminho = _caminho_atrator(lista, i)
+		if L[i] != 0 and caminho != None:
+			
+			for estado in caminho:
+				somatorio_w += T[estado]
+
+			w[i] = somatorio_w/L[i]
+
 
 	return w
+
 
 def cal_W_total(lista):
 
 	return sum(cal_w(lista))/len(lista)
 
 
+l = lista_trns
+
 '''
-print("L: ",cal_L(lista_trns))
-print("w: ",cal_w(lista_trns))
-print("T: ", cal_T(lista_trns))
-print("W_total: ",cal_W_total(lista_trns))
+print("lista: ", l)
+
+print("L: ",cal_L(l))
+
+print("T: ", cal_T(l))
+
+print("w: ",cal_w(l))
 '''
+print("W_total: ",cal_W_total(l))
 
 
 
