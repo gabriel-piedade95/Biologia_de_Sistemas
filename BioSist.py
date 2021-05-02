@@ -188,3 +188,7 @@ def bacias(lista):
       a += 1
 
   return bacia
+
+def tamanho_bacias(bacias):
+
+  return [len(bacias[x]) for x in range(0, len(bacias))]
