@@ -1,13 +1,3 @@
-from dados import matriz_wildtype as mtz 
-
-import BioSist as bios 
-
-
-trns = bios.gera_transicoes(mtz)
-lista_trns = bios.lista_adjacencia(trns)
-
-lista_teste = [0, 4, 0, 0, 4, 1, 3, 2, 1, 3]
-lista_teste2 = [3, 0, 0, 3, 3]
 
 
 def _cal_T_estados(lista, est_ant):
@@ -96,31 +86,5 @@ def cal_w(lista):
 def cal_W_total(lista):
 
 	return sum(cal_w(lista))/len(lista)
-
-
-l = lista_trns
-
-'''
-print("lista: ", l)
-
-print("L: ",cal_L(l))
-
-print("T: ", cal_T(l))
-
-print("w: ",cal_w(l))
-'''
-print("W_total: ",cal_W_total(l))
-
-
-
-
-
-
-
-
-
-	
-
-
 
 
