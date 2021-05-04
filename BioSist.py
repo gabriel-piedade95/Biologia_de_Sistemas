@@ -135,24 +135,6 @@ def altera_transicoes(mtz, linha, gene, trns):
 
 
 
-def seleciona_linhas(mtz):
-  
-  res ={}
-  
-  for k in range(0, len(mtz)):
-  
-    gene = abre_arquivo(f'gene{k}.txt')
-    linha = mtz[k]
-    res[k] = []
-  
-    for i in range(0, len(gene)):
-  
-      hamming = np.array(linha) - np.array(gene[i])
-      if list(hamming).count(0) == 10:
-        res[k].append(gene[i])
-  
-  return res
-
 def entropia(bacias):
 
   total = 2048
