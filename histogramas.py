@@ -26,11 +26,15 @@ def relacoes_entre_genes(gene):
 
 def gera_histograma_gene(relacoes):
 
-	genes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	from dados import ordem_genes as genes
+	total = relacoes[0][0] + relacoes[1][0] + relacoes[2][0]
+	inib = [x/total for x in relacoes[0]]
+	nd = [x/total for x in relacoes[1]]
+	atv = [x/total for x in relacoes[2]] 
 
-	inibicao = plt.bar(genes, relacoes[0], width = 0.5, color = 'r')
-	nada = plt.bar(genes, relacoes[1], width = 0.5, color = 'b', bottom = relacoes[0])
-	ativacao = plt.bar(genes, relacoes[2], width = 0.5, color = 'g', bottom = np.array(relacoes[0]) + np.array(relacoes[1]))
+	inibicao = plt.bar(genes, inib, width = 0.5, color = 'r')
+	nada = plt.bar(genes, nd, width = 0.5, color = 'b', bottom = inib)
+	ativacao = plt.bar(genes, atv, width = 0.5, color = 'g', bottom = np.array(inib) + np.array(nd))
 
 	plt.show()
 
