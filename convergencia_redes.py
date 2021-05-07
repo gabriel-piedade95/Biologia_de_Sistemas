@@ -69,17 +69,13 @@ def cal_w(lista):
 	T = cal_T(lista)
 
 	for i in range(0, len(lista)):
-
-		somatorio_w = 0
-		caminho = _caminho_atrator(lista, i)
-		if L[i] != 0 and caminho != None:
-			
-			for estado in caminho:
+		if L[i] != 0:
+			estado = i
+			somatorio_w = 0
+			while lista[estado] != estado:
 				somatorio_w += T[estado]
-
+				estado = lista[estado]
 			w[i] = somatorio_w/L[i]
-
-
 	return w
 
 
