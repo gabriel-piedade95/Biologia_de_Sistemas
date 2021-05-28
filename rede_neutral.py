@@ -3,6 +3,8 @@ import BioSist as bios
 import convergencia_redes as cR
 import math 
 import random as rand
+import networkx as nx
+import matplotlib.pyplot as plt
 
 ### Calculos ###
 
@@ -114,13 +116,41 @@ def imprime_randomwalk(caminho, n):
 				f.write(caminho[i][j])
 			f.write('\n')
 
+### Imprime Grafo Neutral ###
 
 
-mtz = dados.matriz_wildtype
-caminho = randomwalk_grafo(mtz, 1000)
-imprime_randomwalk(caminho, 3)
+def le_arquivo_rdn_wlk(n):
+
+	caminho = []
+	with open(f'randomwalk_{n}.txt', 'r', encoding = 'utf-8') as f:
+		for linha in f:
+			caminho.append(linha[:-1])
+
+	return caminho
+
+def gera_grafo(caminho):
+
+	trns = []
+	for i in range(0, len(caminho) - 1):
+
+		trns.append((caminho[i + 1], caminho[i]))
+
+	return trns 
+
+def imprime_grafo(transicoes):
+
+	G = nx.DiGraph()
+	G.add_edges_from(transicoes)
+	pos = nx.spring_layout(G)
+	plt.figure(3, figsize = (14, 10))
+	nx.draw_networkx_nodes(G, pos, node_size = 100)
+	nx.draw_networkx_edges(G, pos, arrows = True)
+	plt.show()
 
 
+caminho = le_arquivo_rdn_wlk(2)
+trns = gera_grafo(caminho) 
+imprime_grafo(trns)
 
 
 
