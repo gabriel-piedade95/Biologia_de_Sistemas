@@ -116,6 +116,72 @@ def imprime_randomwalk(caminho, n):
 				f.write(caminho[i][j])
 			f.write('\n')
 
+
+### Random Heap ###
+
+def sorteia_descendentes(raiz, nohs):
+
+	linhas_raiz = [int(x) for x in raiz.split('-')]
+	desc = []
+
+	while len(desc) < 2:
+
+		gene = rand.randint(0, 10)
+		linhas = bios.abre_arquivo(f'gene{gene}.txt')
+		aux = []
+		raiz_linha = linhas[linhas_raiz[gene] + 1]
+		
+		for i in range(0, len(linhas)):
+
+			if distanciaHamming(linhas[i], raiz_linha):
+				aux.append(i)
+
+		n = rand.randint(0, len(aux) - 1)
+		novo_desc = linhas_raiz.copy()
+		novo_desc[gene] = aux[n]
+
+		if novo_desc not in desc and novo_desc not in nohs:
+			desc.append('-'.join(str(x) for x in novo_desc))
+
+	return desc 
+
+	
+ 
+def gera_random_heap(mtz, n):
+
+	raiz = stringfica_rede(mtz)
+	nohs = [raiz]
+	k = 0
+
+	while n > 0:
+
+		if  len(nohs) < 2*k + 2:
+			nohs += [0] * (2 * len(nohs))
+		desc = sorteia_descendentes(raiz, nohs)
+		a = desc[0]
+		b = desc[1]
+		nohs[2*k + 1] = a
+		nohs[2*k + 2] = b
+
+		k += 1
+		raiz = nohs[k]
+
+		n -= 1
+
+
+	return nohs
+
+def imprime_heap(nohs, nome):
+
+	with open(f'{nome}.txt', 'w', encoding = 'utf-8') as f:
+		for l in range(0, len(nohs)):
+			if nohs[l] != 0:
+				for d in nohs[l]:
+					f.write(d)
+
+				f.write('\n')
+
+
 ### Imprime Grafo Neutral ###
 
 
@@ -128,6 +194,7 @@ def le_arquivo_rdn_wlk(n):
 
 	return caminho
 
+
 def gera_grafo(caminho):
 
 	trns = []
@@ -136,6 +203,19 @@ def gera_grafo(caminho):
 		trns.append((caminho[i + 1], caminho[i]))
 
 	return trns 
+
+def combina_caminhos(caminho1, caminho2):
+
+	novo_caminho = caminho1
+
+	for i in range(0, len(caminho2)):
+
+		if caminho2[i] not in novo_caminho:
+			novo_caminho.append(caminho2[i])
+
+	return novo_caminho
+
+	
 
 def imprime_grafo(transicoes):
 
@@ -148,10 +228,9 @@ def imprime_grafo(transicoes):
 	plt.show()
 
 
-caminho = le_arquivo_rdn_wlk(2)
-trns = gera_grafo(caminho) 
-imprime_grafo(trns)
-
+mtz = dados.matriz_wildtype
+caminho = gera_random_heap(mtz, 100)
+imprime_heap(caminho, 'random_heap')
 
 
 
