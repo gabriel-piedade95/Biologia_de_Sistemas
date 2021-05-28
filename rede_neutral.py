@@ -127,6 +127,6 @@ def sorteia_individuos(pop, parcela):
 
 def roda_geracoes(n, mtz):
 
-	pop_inicial = cria_populacao(mtz)
-	
+	pop = cria_populacao(mtz)
+
 	pass
