@@ -152,8 +152,8 @@ def gera_random_heap(mtz, n):
 	raiz = stringfica_rede(mtz)
 	nohs = [raiz]
 	k = 0
-
-	while n > 0:
+	total = (2**(n+1)) + 1
+	while total > 0:
 
 		if  len(nohs) < 2*k + 2:
 			nohs += [0] * (2 * len(nohs))
@@ -166,7 +166,7 @@ def gera_random_heap(mtz, n):
 		k += 1
 		raiz = nohs[k]
 
-		n -= 1
+		total -= 1
 
 
 	return nohs
@@ -228,9 +228,7 @@ def imprime_grafo(transicoes):
 	plt.show()
 
 
-mtz = dados.matriz_wildtype
-caminho = gera_random_heap(mtz, 100)
-imprime_heap(caminho, 'random_heap')
+
 
 
 
