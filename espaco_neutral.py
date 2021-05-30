@@ -73,7 +73,7 @@ def entropia_bacias(linhas_possiveis):
 
 def diferencas_entropia(entropias, limiar):
 	
-	return [(x, entropias[0]) for x in entropias if abs(H_wt - x) <= limiar]
+	return [(x, entropias[0]) for x in entropias if abs(entropias[0] - x) <= limiar]
 
 
 def imprime_grafo(transicoes):
@@ -91,7 +91,6 @@ def imprime_grafo(transicoes):
 l = linhas_uma_diferenca(mtz)
 linhas = seleciona_linhas_uma_diferenca(estados, l)
 
-print(entropia_bacias(linhas))
 
 
 
