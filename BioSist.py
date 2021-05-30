@@ -8,7 +8,7 @@ def abre_arquivo(nome):
 
   linhas = []
 
-  with open(nome,'r', encoding='utf-8') as f:
+  with open(f'/home/gpsp95/Documentos/bio_sist/codigo/Biologia_de_Sistemas/textos/' + nome,'r', encoding='utf-8') as f:
     
     for linha in f:
       linhas.append([int(k) for k in re.findall(r'-?\d+', linha)])

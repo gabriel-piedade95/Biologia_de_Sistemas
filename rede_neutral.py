@@ -5,6 +5,7 @@ import math
 import random as rand
 import networkx as nx
 import matplotlib.pyplot as plt
+import os
 
 ### Calculos ###
 
@@ -185,17 +186,35 @@ def imprime_heap(nohs, nome):
 ### Imprime Grafo Neutral ###
 
 
-def le_arquivo_rdn_wlk(n):
+def le_arquivo(nome):
 
-	caminho = []
-	with open(f'randomwalk_{n}.txt', 'r', encoding = 'utf-8') as f:
+	linhas = []
+	with open(f'/home/gpsp95/Documentos/bio_sist/codigo/Biologia_de_Sistemas/textos/{nome}.txt',
+	 'r', encoding = 'utf-8') as f:
 		for linha in f:
-			caminho.append(linha[:-1])
+			linhas.append(linha[:-1])
 
-	return caminho
+	return linhas
 
 
-def gera_grafo(caminho):
+def gera_trasicoes_heap(heap):
+
+	trns = []
+	tam = int((len(heap) - 1)/2)
+	i = 0
+
+	while i < tam:
+
+		trns.append((heap[i], heap[(2*i) + 1]))
+		trns.append((heap[i], heap[(2*i) + 2]))
+
+		i += 1
+
+	return trns
+
+
+
+def gera_transicoes_randomwlak(caminho):
 
 	trns = []
 	for i in range(0, len(caminho) - 1):
@@ -215,7 +234,7 @@ def combina_caminhos(caminho1, caminho2):
 
 	return novo_caminho
 
-	
+
 
 def imprime_grafo(transicoes):
 
@@ -229,6 +248,11 @@ def imprime_grafo(transicoes):
 
 
 
+mtz = dados.matriz_wildtype
+for i in range(0, 5):
+
+	heap = gera_random_heap(mtz, 10)
+	imprime_heap(heap, f'heap_{i + 1}')
 
 
 
