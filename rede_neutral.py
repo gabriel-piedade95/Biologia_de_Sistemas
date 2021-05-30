@@ -130,7 +130,7 @@ def sorteia_descendentes(raiz, nohs):
 		gene = rand.randint(0, 10)
 		linhas = bios.abre_arquivo(f'gene{gene}.txt')
 		aux = []
-		raiz_linha = linhas[linhas_raiz[gene] + 1]
+		raiz_linha = linhas[linhas_raiz[gene]]
 		
 		for i in range(0, len(linhas)):
 
@@ -245,15 +245,6 @@ def imprime_grafo(transicoes):
 	nx.draw_networkx_nodes(G, pos, node_size = 100)
 	nx.draw_networkx_edges(G, pos, arrows = True)
 	plt.show()
-
-
-
-mtz = dados.matriz_wildtype
-for i in range(0, 5):
-
-	heap = gera_random_heap(mtz, 10)
-	imprime_heap(heap, f'heap_{i + 1}')
-
 
 
 
